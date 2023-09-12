@@ -65,13 +65,18 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function IsNumber(number: any){
   if (number === ''){
-    return false;
+    return "Empty String";
   }
   if (isNaN(number)){
-      return false;
+      return "Not a number.";
   }
   let isnum = /^\d*$/.test(number);
-  return isnum
+  if (isnum){
+    return "";
+  }
+  else{
+    return "Invalid characters.";
+  }
 }
 
 
@@ -79,10 +84,11 @@ function IsNumber(number: any){
 function App({navigation}: {navigation:any}): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [pageNumInput, onChangePageNumInput] = React.useState('');
-  const [errorString, onChangeErrorString] = React.useState('');
+  let [errorString, setErrorString] = React.useState('');
   
   function LoadPage(){
-    if (IsNumber(pageNumInput)){
+    setErrorString(IsNumber(pageNumInput));
+    if (IsNumber(pageNumInput) == ""){
       navigation.navigate('Page', {pageNumber: pageNumInput})
     }
   }
@@ -125,6 +131,9 @@ function App({navigation}: {navigation:any}): JSX.Element {
             placeholder='Page Number'
             keyboardType='numeric'
           />
+          <Text>
+            Current Error: {errorString}
+          </Text>
           <Section title="Step one">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
