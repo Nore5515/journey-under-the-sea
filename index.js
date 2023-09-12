@@ -8,6 +8,8 @@ import {name as appName} from './app.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PAGE_MAX } from './Constants';
+import * as images from './generatedImageImports';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -15,12 +17,18 @@ const pathArray = PopulatePathArray();
 
 function PopulatePathArray(){
     let coolArray = [PAGE_MAX];
-    let pathPrefix = "./pages/journey_under_the_sea-";
-    let pathSuffix = ".png";
-    for (let x = 0; x < PAGE_MAX; x++){
-        coolArray[x] = pathPrefix + ConvertPageNumberToPathStr(x+1) + pathSuffix;
+    let pathPrefix = "journey_under_the_sea_";
+    for (let x = 1; x <= PAGE_MAX; x++){
+        coolArray[x] = pathPrefix + ConvertPageNumberToPathStr(x);
     }
     return coolArray;
+}
+
+function GetImageFromIndex(imgIndex){
+    let pathPrefix = "journey_under_the_sea_";
+    let path = pathPrefix + ConvertPageNumberToPathStr(imgIndex);
+    console.log(images[path]);
+    return images[path];
 }
 
 function SecretScreen(){
@@ -63,14 +71,7 @@ function ConvertPageNumberToPathStr(pageInt){
 function GetPageView({route, navigation}){
     const {pageNumber} = route.params;
 
-    let pageNumberStr = ConvertPageNumberToPathStr(pageNumber);
-
-    let pathPrefix = "./pages/journey_under_the_sea-";
-    let pathSuffix = ".png";
-    let path = pathPrefix + pageNumberStr + pathSuffix;
-
-    console.log(pathArray[0]);
-    console.log(pathArray[100]);
+    console.log(pathArray[pageNumber]);
   
     return (
         <View style={{flex: 1}}>
@@ -80,11 +81,8 @@ function GetPageView({route, navigation}){
                 </Text>
                 <Image 
                     style={{resizeMode: 'contain', width: 400, height: 600}}
-                    source={require('./pages/journey_under_the_sea-003.png')} 
+                    source={GetImageFromIndex(pageNumber)} 
                 />
-                <Text>
-                    {path}
-                </Text>
                 <Button 
                     title="Home"
                     onPress={() => navigation.navigate('Home')}
