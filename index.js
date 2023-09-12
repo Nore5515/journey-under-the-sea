@@ -7,8 +7,21 @@ import App from './App';
 import {name as appName} from './app.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { PAGE_MAX } from './Constants';
 
 const Stack = createNativeStackNavigator();
+
+const pathArray = PopulatePathArray();
+
+function PopulatePathArray(){
+    let coolArray = [PAGE_MAX];
+    let pathPrefix = "./pages/journey_under_the_sea-";
+    let pathSuffix = ".png";
+    for (let x = 0; x < PAGE_MAX; x++){
+        coolArray[x] = pathPrefix + ConvertPageNumberToPathStr(x+1) + pathSuffix;
+    }
+    return coolArray;
+}
 
 function SecretScreen(){
     return (
@@ -30,16 +43,35 @@ function IsNumber(number){
         console.log("Is number1");
     }
     else{
-        console.log("Not an umber..");
+        console.log("Not a number..");
     }
     return isnum
+}
+
+function ConvertPageNumberToPathStr(pageInt){
+    let pagePathStr = pageInt;
+
+    if (pageInt < 100 && pageInt >= 10){
+        pagePathStr = "0" + pageInt;
+    }
+    if (pageInt < 10){
+        pagePathStr = "00" + pageInt;
+    }
+    return pagePathStr;
 }
   
 function GetPageView({route, navigation}){
     const {pageNumber} = route.params;
 
-    IsNumber(pageNumber);
+    let pageNumberStr = ConvertPageNumberToPathStr(pageNumber);
 
+    let pathPrefix = "./pages/journey_under_the_sea-";
+    let pathSuffix = ".png";
+    let path = pathPrefix + pageNumberStr + pathSuffix;
+
+    console.log(pathArray[0]);
+    console.log(pathArray[100]);
+  
     return (
         <View style={{flex: 1}}>
             <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -50,6 +82,9 @@ function GetPageView({route, navigation}){
                     style={{resizeMode: 'contain', width: 400, height: 600}}
                     source={require('./pages/journey_under_the_sea-003.png')} 
                 />
+                <Text>
+                    {path}
+                </Text>
                 <Button 
                     title="Home"
                     onPress={() => navigation.navigate('Home')}
