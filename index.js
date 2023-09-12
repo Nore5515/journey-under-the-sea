@@ -102,6 +102,12 @@ function BackButtonPressed(navigation, pageNumber){
     }
 }
 
+function GotoPage(navigation, pageNumber){
+    if (pageNumber > 0){
+        navigation.navigate('Page', {pageNumber: pageNumber})
+    }
+}
+
 function IsPageBranching(pageNumber){
     for (let x = 0; x < cyoaPathData.cyoa_paths.length; x++){
         if (cyoaPathData.cyoa_paths[x].page == pageNumber){
@@ -123,6 +129,10 @@ function GetIndexFromPageNumber(pageNumber){
 
 function GetPageChoicesArray(pageNumber){
     return cyoaPathData.cyoa_paths[GetIndexFromPageNumber(pageNumber)].choices;
+}
+
+function PopulateBranchButtonsFromPageArray(pageArray){
+
 }
   
 function GetPageView({route, navigation}){
@@ -159,7 +169,7 @@ function GetPageView({route, navigation}){
                 />
                 <View>
                     {branchButtons.map((buttonData) => (
-                        <Button title={buttonData}/>
+                        <Button title={buttonData} onPress={() => GotoPage(navigation, buttonData)}/>
                     ))}
                 </View>
             </ScrollView>
