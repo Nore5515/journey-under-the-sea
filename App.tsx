@@ -26,6 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { PAGE_MAX } from './Constants';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -79,6 +80,9 @@ function IsNumber(number: any){
   }
 }
 
+function IsBelowPageMax(number: any){
+  return number < PAGE_MAX;
+}
 
 // Not the type safest. TOOD later.
 function App({navigation}: {navigation:any}): JSX.Element {
@@ -89,7 +93,12 @@ function App({navigation}: {navigation:any}): JSX.Element {
   function LoadPage(){
     setErrorString(IsNumber(pageNumInput));
     if (IsNumber(pageNumInput) == ""){
-      navigation.navigate('Page', {pageNumber: pageNumInput})
+      if (IsBelowPageMax(pageNumInput)){
+        navigation.navigate('Page', {pageNumber: pageNumInput})
+      }
+      else{
+        setErrorString("Page size too large.");
+      }
     }
   }
 
@@ -119,6 +128,9 @@ function App({navigation}: {navigation:any}): JSX.Element {
             title="Page"
             onPress={() => LoadPage()}
           />
+          <Text>
+            Page Maximum: 117
+          </Text>
           <TextInput
             style={{
               height: 40,
