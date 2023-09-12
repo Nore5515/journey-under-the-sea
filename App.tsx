@@ -63,10 +63,29 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
+function IsNumber(number: any){
+  if (number === ''){
+    return false;
+  }
+  if (isNaN(number)){
+      return false;
+  }
+  let isnum = /^\d*$/.test(number);
+  return isnum
+}
+
+
 // Not the type safest. TOOD later.
 function App({navigation}: {navigation:any}): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [number, onChangeNumber] = React.useState('');
+  const [pageNumInput, onChangePageNumInput] = React.useState('');
+  const [errorString, onChangeErrorString] = React.useState('');
+  
+  function LoadPage(){
+    if (IsNumber(pageNumInput)){
+      navigation.navigate('Page', {pageNumber: pageNumInput})
+    }
+  }
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -92,7 +111,7 @@ function App({navigation}: {navigation:any}): JSX.Element {
           />
           <Button 
             title="Page"
-            onPress={() => navigation.navigate('Page', {pageNumber: number})}
+            onPress={() => LoadPage()}
           />
           <TextInput
             style={{
@@ -101,8 +120,8 @@ function App({navigation}: {navigation:any}): JSX.Element {
               borderWidth: 1,
               padding: 10,
             }}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={onChangePageNumInput}
+            value={pageNumInput}
             placeholder='Page Number'
             keyboardType='numeric'
           />

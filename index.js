@@ -17,10 +17,28 @@ function SecretScreen(){
       </View>
     );
 }
+
+function IsNumber(number){
+    if (isNaN(number)){
+        console.log("NAN!");
+        return false;
+    }
+    let isnum = /^\d*$/.test(number);
+    console.log(number)
+    console.log(isnum)
+    if (isnum){
+        console.log("Is number1");
+    }
+    else{
+        console.log("Not an umber..");
+    }
+    return isnum
+}
   
 function GetPageView({route, navigation}){
     const {pageNumber} = route.params;
-    console.log(pageNumber)
+
+    IsNumber(pageNumber);
 
     return (
         <View style={{flex: 1}}>
