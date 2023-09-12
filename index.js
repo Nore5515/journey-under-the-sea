@@ -67,6 +67,23 @@ function ConvertPageNumberToPathStr(pageInt){
     }
     return pagePathStr;
 }
+
+function IncrementIntegerInString(integerTrappedInString){
+    if (IsNumber(integerTrappedInString) == false){
+        console.log("ERROR");
+        return -1;
+    }
+    let incrementedInteger = parseInt(integerTrappedInString) + 1;
+    console.log("Incremented? " + incrementedInteger);
+    return incrementedInteger;
+}
+
+function NextButtonPressed(navigation, pageNumber){
+    if (pageNumber < PAGE_MAX){
+        console.log("Navigating!");
+        navigation.navigate('Page', {pageNumber: IncrementIntegerInString(pageNumber)})
+    }
+}
   
 function GetPageView({route, navigation}){
     const {pageNumber} = route.params;
@@ -86,6 +103,10 @@ function GetPageView({route, navigation}){
                 <Button 
                     title="Home"
                     onPress={() => navigation.navigate('Home')}
+                />
+                <Button 
+                    title="Next"
+                    onPress={() => NextButtonPressed(navigation, pageNumber)}
                 />
             </ScrollView>
         </View>
