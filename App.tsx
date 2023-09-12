@@ -14,6 +14,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -37,6 +38,7 @@ type RootStackParamList = {
 
 function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+ 
   return (
     <View style={styles.sectionContainer}>
       <Text
@@ -64,6 +66,7 @@ function Section({children, title}: SectionProps): JSX.Element {
 // Not the type safest. TOOD later.
 function App({navigation}: {navigation:any}): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [number, onChangeNumber] = React.useState('');
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -86,6 +89,22 @@ function App({navigation}: {navigation:any}): JSX.Element {
           <Button 
             title="SECRET"
             onPress={() => navigation.navigate('Secret')}
+          />
+          <Button 
+            title="Page"
+            onPress={() => navigation.navigate('Page', {pageNumber: number})}
+          />
+          <TextInput
+            style={{
+              height: 40,
+              margin: 12,
+              borderWidth: 1,
+              padding: 10,
+            }}
+            onChangeText={onChangeNumber}
+            value={number}
+            placeholder='Page Number'
+            keyboardType='numeric'
           />
           <Section title="Step one">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this

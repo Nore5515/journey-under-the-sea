@@ -1,3 +1,11 @@
+# Noah Notes
+
+Pages are:
+```600 × 1050``
+ratio is 12:21
+
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
