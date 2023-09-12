@@ -78,10 +78,25 @@ function IncrementIntegerInString(integerTrappedInString){
     return incrementedInteger;
 }
 
+function DecrementIntegerInString(integerTrappedInString){
+    if (IsNumber(integerTrappedInString) == false){
+        console.log("ERROR");
+        return -1;
+    }
+    let decrementedInteger = parseInt(integerTrappedInString) - 1;
+    console.log("Incremented? " + decrementedInteger);
+    return decrementedInteger;
+}
+
 function NextButtonPressed(navigation, pageNumber){
     if (pageNumber < PAGE_MAX){
-        console.log("Navigating!");
         navigation.navigate('Page', {pageNumber: IncrementIntegerInString(pageNumber)})
+    }
+}
+
+function BackButtonPressed(navigation, pageNumber){
+    if (pageNumber > 0){
+        navigation.navigate('Page', {pageNumber: DecrementIntegerInString(pageNumber)})
     }
 }
   
@@ -107,6 +122,10 @@ function GetPageView({route, navigation}){
                 <Button 
                     title="Next"
                     onPress={() => NextButtonPressed(navigation, pageNumber)}
+                />
+                <Button 
+                    title="Back"
+                    onPress={() => BackButtonPressed(navigation, pageNumber)}
                 />
             </ScrollView>
         </View>

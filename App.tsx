@@ -80,8 +80,8 @@ function IsNumber(number: any){
   }
 }
 
-function IsBelowPageMax(number: any){
-  return number < PAGE_MAX;
+function IsWithinPageRange(number: any){
+  return number <= PAGE_MAX;
 }
 
 // Not the type safest. TOOD later.
@@ -93,7 +93,7 @@ function App({navigation}: {navigation:any}): JSX.Element {
   function LoadPage(){
     setErrorString(IsNumber(pageNumInput));
     if (IsNumber(pageNumInput) == ""){
-      if (IsBelowPageMax(pageNumInput)){
+      if (IsWithinPageRange(pageNumInput)){
         navigation.navigate('Page', {pageNumber: pageNumInput})
       }
       else{
