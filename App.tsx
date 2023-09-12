@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -28,6 +29,11 @@ import {
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+type RootStackParamList = {
+  Home: undefined,
+  Profile: {name: string};
+}
 
 function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -55,7 +61,8 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
-function App(): JSX.Element {
+// Not the type safest. TOOD later.
+function App({navigation}: {navigation:any}): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -76,6 +83,10 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <Button 
+            title="SECRET"
+            onPress={() => navigation.navigate('Secret')}
+          />
           <Section title="Step one">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
