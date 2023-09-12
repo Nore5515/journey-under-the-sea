@@ -115,19 +115,10 @@ function App({navigation}: {navigation:any}): JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Button 
-            title="SECRET"
-            onPress={() => navigation.navigate('Secret')}
-          />
-          <Button 
-            title="Page"
-            onPress={() => LoadPage()}
-          />
           <Text>
             Page Maximum: 117
           </Text>
@@ -146,20 +137,10 @@ function App({navigation}: {navigation:any}): JSX.Element {
           <Text>
             Current Error: {errorString}
           </Text>
-          <Section title="Step one">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+            <Button 
+              title="Go to Page"
+              onPress={() => LoadPage()}
+            />
         </View>
       </ScrollView>
     </SafeAreaView>

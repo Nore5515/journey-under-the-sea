@@ -160,6 +160,10 @@ function GetPageView({route, navigation}){
                     onPress={() => navigation.navigate('Home')}
                 />
                 <Button 
+                    title="Restart"
+                    onPress={() => GotoPage(navigation, 1)}
+                />
+                <Button 
                     title="Next"
                     onPress={() => NextButtonPressed(navigation, pageNumber)}
                 />
