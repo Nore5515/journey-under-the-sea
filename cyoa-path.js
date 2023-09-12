@@ -228,3 +228,5 @@ const cyoa_paths = [
         choices: ["55"]
     },
 ]
+
+export {cyoa_paths};

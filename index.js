@@ -9,11 +9,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PAGE_MAX } from './Constants';
 import * as images from './generatedImageImports';
-
+// import cyoa_paths from './cyoa-path';
 
 const Stack = createNativeStackNavigator();
 
 const pathArray = PopulatePathArray();
+
+const cyoaPathData = require('./cyoa-path.js');
 
 function PopulatePathArray(){
     let coolArray = [PAGE_MAX];
@@ -27,7 +29,7 @@ function PopulatePathArray(){
 function GetImageFromIndex(imgIndex){
     let pathPrefix = "journey_under_the_sea_";
     let path = pathPrefix + ConvertPageNumberToPathStr(imgIndex);
-    console.log(images[path]);
+    // console.log(images[path]);
     return images[path];
 }
 
@@ -45,14 +47,14 @@ function IsNumber(number){
         return false;
     }
     let isnum = /^\d*$/.test(number);
-    console.log(number)
-    console.log(isnum)
-    if (isnum){
-        console.log("Is number1");
-    }
-    else{
-        console.log("Not a number..");
-    }
+    // console.log(number)
+    // console.log(isnum)
+    // if (isnum){
+    //     console.log("Is number1");
+    // }
+    // else{
+    //     console.log("Not a number..");
+    // }
     return isnum
 }
 
@@ -99,11 +101,39 @@ function BackButtonPressed(navigation, pageNumber){
         navigation.navigate('Page', {pageNumber: DecrementIntegerInString(pageNumber)})
     }
 }
+
+function IsPageBranching(pageNumber){
+    for (let x = 0; x < cyoaPathData.cyoa_paths.length; x++){
+        if (cyoaPathData.cyoa_paths[x].page == pageNumber){
+            return true;
+        }
+    }
+    return false;
+}
+
+function GetIndexFromPageNumber(pageNumber){
+    for (let x = 0; x < cyoaPathData.cyoa_paths.length; x++){
+        if (cyoaPathData.cyoa_paths[x].page == pageNumber){
+            return x;
+        }
+    }
+    console.log("Out of range on GetIndexFromPageNumber");
+    return -1;
+}
+
+function GetPageChoicesArray(pageNumber){
+    return cyoaPathData.cyoa_paths[GetIndexFromPageNumber(pageNumber)].choices;
+}
   
 function GetPageView({route, navigation}){
     const {pageNumber} = route.params;
+    
+    let branchButtons = [];
 
-    console.log(pathArray[pageNumber]);
+    if (IsPageBranching(pageNumber)){
+        console.log("Branching page!");
+        branchButtons = GetPageChoicesArray(pageNumber);
+    }
   
     return (
         <View style={{flex: 1}}>
@@ -127,6 +157,11 @@ function GetPageView({route, navigation}){
                     title="Back"
                     onPress={() => BackButtonPressed(navigation, pageNumber)}
                 />
+                <View>
+                    {branchButtons.map((buttonData) => (
+                        <Button title={buttonData}/>
+                    ))}
+                </View>
             </ScrollView>
         </View>
     );
